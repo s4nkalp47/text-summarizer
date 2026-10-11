@@ -2,6 +2,7 @@ import argparse
 
 from textSummarizer.config.configuration import ConfigurationManager
 from textSummarizer.logging import logger
+from textSummarizer.pipeline.stage_01_data_ingestion import DataIngestionPipeline
 
 STAGES = ["ingestion", "transformation", "training", "evaluation"]
 
@@ -18,16 +19,24 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+PIPELINES = {
+    "ingestion": DataIngestionPipeline,
+}
+
+
 def run_stage(stage: str, config_manager: ConfigurationManager) -> None:
-    get_config = {
-        "ingestion": config_manager.get_data_ingestion_config,
-        "transformation": config_manager.get_data_transformation_config,
-        "training": config_manager.get_model_trainer_config,
-        "evaluation": config_manager.get_model_evaluation_config,
-    }[stage]
     logger.info(f">>>>> Stage '{stage}' started <<<<<")
-    logger.info(f"Config: {get_config()}")
-    logger.info(f"Stage '{stage}': not implemented")
+    if stage not in PIPELINES:
+        get_config = {
+            "transformation": config_manager.get_data_transformation_config,
+            "training": config_manager.get_model_trainer_config,
+            "evaluation": config_manager.get_model_evaluation_config,
+        }[stage]
+        logger.info(f"Config: {get_config()}")
+        logger.info(f"Stage '{stage}': not implemented")
+        return
+    PIPELINES[stage](config_manager).main()
+    logger.info(f">>>>> Stage '{stage}' completed <<<<<")
 
 
 def main() -> None:

@@ -10,7 +10,7 @@ This file plans the build phase by phase for Claude Code. Each phase has three p
 
 - [ ] Phase 0: Setup (you)
 - [x] Phase 1: Project skeleton and config plumbing
-- [ ] Phase 2: Data ingestion (Stage 1)
+- [x] Phase 2: Data ingestion (Stage 1)
 - [ ] Phase 3: Data transformation (Stage 2)
 - [ ] Phase 4: Model fine-tuning (Stage 3), with a local smoke test and Colab training
 - [ ] Phase 5: Model evaluation (Stage 4)
@@ -130,9 +130,9 @@ Run `python main.py --stage ingestion` and research/eda.py, show me the stats, a
 ```
 
 **Done when:**
-- [ ] `artifacts/data_ingestion/` has train (~14.7k), validation (818) and test (819) splits
-- [ ] Running ingestion again skips the download
-- [ ] `params.yaml` has real max lengths (expect about 512 for input and 128 for target)
+- [x] `artifacts/data_ingestion/` has train (~14.7k), validation (818) and test (819) splits
+- [x] Running ingestion again skips the download
+- [x] `params.yaml` has real max lengths (expect about 512 for input and 128 for target)
 - [ ] You've looked at `research/length_hist.png` and a few raw dialogues
 
 ---
