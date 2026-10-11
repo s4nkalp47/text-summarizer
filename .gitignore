@@ -1,0 +1,9 @@
+.venv/
+artifacts/
+logs/
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints/
+
+.claude/
+CLAUDE.md

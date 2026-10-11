@@ -1,0 +1,36 @@
+# Paths, dataset and model names. Hyperparameters live in params.yaml.
+artifacts_root: artifacts
+
+# Pretrained checkpoint to fine-tune. In smoke mode, smoke_test.model_ckpt
+# from params.yaml replaces it.
+base_model_ckpt: google/pegasus-cnn_dailymail
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  dataset_name: knkarthick/samsum
+  data_path: artifacts/data_ingestion/samsum_dataset          # writes
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_ingestion/samsum_dataset          # reads
+  output_path: artifacts/data_transformation/samsum_tokenized # writes
+
+model_trainer:
+  root_dir: artifacts/model_trainer
+  data_path: artifacts/data_transformation/samsum_tokenized   # reads
+  model_path: artifacts/model_trainer/model                   # writes
+  tokenizer_path: artifacts/model_trainer/tokenizer           # writes
+
+model_evaluation:
+  root_dir: artifacts/model_evaluation
+  data_path: artifacts/data_ingestion/samsum_dataset          # reads (raw test split)
+  model_path: artifacts/model_trainer/model                   # reads
+  tokenizer_path: artifacts/model_trainer/tokenizer           # reads
+  metrics_path: artifacts/model_evaluation/metrics.csv        # writes
+  samples_path: artifacts/model_evaluation/samples.csv        # writes
+
+# Serves over HTTP, so it has no artifacts dir. The paths can also be
+# Hugging Face Hub ids.
+prediction:
+  model_path: artifacts/model_trainer/model                   # reads
+  tokenizer_path: artifacts/model_trainer/tokenizer           # reads

@@ -1,0 +1,31 @@
+training:
+  num_train_epochs: 1
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 5.0e-5   # keep the ".0": PyYAML reads "5e-5" as a string
+  warmup_steps: 500
+  weight_decay: 0.01
+  logging_steps: 10
+  fp16: false
+  optim: adamw_torch
+  gradient_checkpointing: false
+
+tokenization:
+  # Placeholders: set from the token-length analysis in Phase 2.
+  max_input_length: 1024
+  max_target_length: 128
+
+generation:
+  num_beams: 8
+  length_penalty: 0.8
+  max_new_tokens: 128
+
+evaluation:
+  num_samples: 100
+  batch_size: 4
+
+smoke_test:
+  enabled: true
+  model_ckpt: t5-small
+  num_samples: 64
+  max_steps: 5
