@@ -66,6 +66,7 @@ class ModelEvaluationConfig:
 class PredictionConfig:
     model_path: str  # local folder or Hugging Face Hub id
     tokenizer_path: str
+    max_input_chars: int  # longest dialogue the API accepts
     max_input_length: int
     num_beams: int
     length_penalty: float

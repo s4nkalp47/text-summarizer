@@ -48,3 +48,6 @@ model_evaluation:
 prediction:
   model_path: artifacts/model_trainer/model                   # reads
   tokenizer_path: artifacts/model_trainer/tokenizer           # reads
+  # Longest dialogue the API accepts. Every SAMSum dialogue fits (longest: 5,474 characters);
+  # past max_input_length tokens the model ignores the rest anyway.
+  max_input_chars: 6000

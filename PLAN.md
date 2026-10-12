@@ -14,7 +14,7 @@ This file plans the build phase by phase for Claude Code. Each phase has three p
 - [x] Phase 3: Data transformation (Stage 2)
 - [x] Phase 4: Model fine-tuning (Stage 3), with a local smoke test and Colab training
 - [x] Phase 5: Model evaluation (Stage 4)
-- [ ] Phase 6: Prediction pipeline and API (Stage 5)
+- [x] Phase 6: Prediction pipeline and API (Stage 5)
 - [ ] Phase 7: Docker, README and deployment
 
 | Phase | Builds | Runs on | Rough time |
@@ -250,7 +250,7 @@ Run pytest. Then start uvicorn, call /summarize with a sample SAMSum dialogue, a
 **Done when:**
 - [ ] http://localhost:8080/docs works and `/summarize` returns a good summary
 - [ ] The web page works
-- [ ] `pytest -q` passes without loading a real model
+- [x] `pytest -q` passes without loading a real model
 
 ---
 

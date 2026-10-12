@@ -119,6 +119,7 @@ class ConfigurationManager:
         return PredictionConfig(
             model_path=str(config.model_path),
             tokenizer_path=str(config.tokenizer_path),
+            max_input_chars=config.max_input_chars,
             max_input_length=self.params.tokenization.max_input_length,
             num_beams=generation.num_beams,
             length_penalty=generation.length_penalty,

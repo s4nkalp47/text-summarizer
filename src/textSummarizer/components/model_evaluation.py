@@ -8,30 +8,16 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from textSummarizer.entity import ModelEvaluationConfig
 from textSummarizer.logging import logger
-from textSummarizer.utils.common import clean_summary, input_prefix
+from textSummarizer.utils.generation import summarize_batch
 
 ROUGE_KEYS = ["rouge1", "rouge2", "rougeL", "rougeLsum"]
 
 
 def generate_summaries(model, tokenizer, dialogues: list[str], config: ModelEvaluationConfig) -> list[str]:
-    """Summarize dialogues in batches with the generation settings from params.yaml."""
-    prefix = input_prefix(tokenizer)
+    """Summarize dialogues in batches of evaluation.batch_size."""
     summaries = []
     for start in range(0, len(dialogues), config.batch_size):
-        batch = [prefix + dialogue for dialogue in dialogues[start : start + config.batch_size]]
-        inputs = tokenizer(
-            batch, max_length=config.max_input_length, truncation=True, padding=True, return_tensors="pt"
-        ).to(model.device)
-        with torch.no_grad():
-            output_ids = model.generate(
-                **inputs,
-                num_beams=config.num_beams,
-                length_penalty=config.length_penalty,
-                max_new_tokens=config.max_new_tokens,
-                min_length=config.min_length,
-                no_repeat_ngram_size=config.no_repeat_ngram_size,
-            )
-        summaries += [clean_summary(text) for text in tokenizer.batch_decode(output_ids, skip_special_tokens=True)]
+        summaries += summarize_batch(model, tokenizer, dialogues[start : start + config.batch_size], config)
         logger.info(f"Summarized {min(start + config.batch_size, len(dialogues))}/{len(dialogues)} dialogues")
     return summaries
 
