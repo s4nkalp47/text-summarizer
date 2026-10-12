@@ -1,7 +1,7 @@
 from datasets import DatasetDict, load_from_disk
 from transformers import AutoTokenizer
 
-from textSummarizer.constants import T5_INPUT_PREFIX
+from textSummarizer.constants import T5_INPUT_PREFIX, TOKENIZER_NAME_FILE
 from textSummarizer.entity import DataTransformationConfig
 from textSummarizer.logging import logger
 
@@ -39,6 +39,7 @@ class DataTransformation:
         dataset = load_from_disk(self.config.data_path)
         tokenized = self.transform(dataset)
         tokenized.save_to_disk(self.config.output_path)
+        (self.config.output_path / TOKENIZER_NAME_FILE).write_text(self.config.tokenizer_name, encoding="utf-8")
         split_sizes = {split: len(rows) for split, rows in tokenized.items()}
         logger.info(
             f"Saved tokenized dataset to {self.config.output_path} with splits {split_sizes} "

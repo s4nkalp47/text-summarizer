@@ -175,8 +175,8 @@ Run `python main.py --stage training` in smoke mode. Show me the logged loss and
 ```
 
 **Done when:**
-- [ ] The smoke training finishes in a few minutes on CPU and the loss is logged
-- [ ] `artifacts/model_trainer/model` and `artifacts/model_trainer/tokenizer` exist
+- [x] The smoke training finishes in a few minutes on CPU and the loss is logged
+- [x] `artifacts/model_trainer/model` and `artifacts/model_trainer/tokenizer` exist
 
 ### 4b: Full training on Colab (free T4 GPU)
 
