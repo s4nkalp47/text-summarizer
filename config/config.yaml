@@ -15,11 +15,17 @@ data_transformation:
   data_path: artifacts/data_ingestion/samsum_dataset          # reads
   output_path: artifacts/data_transformation/samsum_tokenized # writes
 
+# A stage's `smoke:` block replaces the matching keys in smoke mode, so smoke
+# runs never overwrite the real model or its evaluation results.
 model_trainer:
   root_dir: artifacts/model_trainer
   data_path: artifacts/data_transformation/samsum_tokenized   # reads
   model_path: artifacts/model_trainer/model                   # writes
   tokenizer_path: artifacts/model_trainer/tokenizer           # writes
+  smoke:
+    root_dir: artifacts/model_trainer/smoke
+    model_path: artifacts/model_trainer/smoke/model
+    tokenizer_path: artifacts/model_trainer/smoke/tokenizer
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
@@ -28,6 +34,14 @@ model_evaluation:
   tokenizer_path: artifacts/model_trainer/tokenizer           # reads
   metrics_path: artifacts/model_evaluation/metrics.csv        # writes
   samples_path: artifacts/model_evaluation/samples.csv        # writes
+  comparison_path: artifacts/model_evaluation/comparison.csv  # writes (research/compare_models.py)
+  smoke:
+    root_dir: artifacts/model_evaluation/smoke
+    model_path: artifacts/model_trainer/smoke/model
+    tokenizer_path: artifacts/model_trainer/smoke/tokenizer
+    metrics_path: artifacts/model_evaluation/smoke/metrics.csv
+    samples_path: artifacts/model_evaluation/smoke/samples.csv
+    comparison_path: artifacts/model_evaluation/smoke/comparison.csv
 
 # Serves over HTTP, so it has no artifacts dir. The paths can also be
 # Hugging Face Hub ids.

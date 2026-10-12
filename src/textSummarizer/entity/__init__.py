@@ -49,12 +49,17 @@ class ModelEvaluationConfig:
     tokenizer_path: Path
     metrics_path: Path
     samples_path: Path
+    comparison_path: Path
+    base_model_ckpt: str  # the pretrained checkpoint, for the before/after comparison
     num_samples: int
+    num_saved_samples: int
     batch_size: int
     max_input_length: int
     num_beams: int
     length_penalty: float
     max_new_tokens: int
+    min_length: int
+    no_repeat_ngram_size: int
 
 
 @dataclass(frozen=True)
@@ -65,3 +70,5 @@ class PredictionConfig:
     num_beams: int
     length_penalty: float
     max_new_tokens: int
+    min_length: int
+    no_repeat_ngram_size: int

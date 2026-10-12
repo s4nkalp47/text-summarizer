@@ -4,6 +4,7 @@ from pathlib import Path
 import yaml
 from box import ConfigBox
 
+from textSummarizer.constants import T5_INPUT_PREFIX
 from textSummarizer.logging import logger
 
 
@@ -23,3 +24,13 @@ def create_directories(paths: list[Path], verbose: bool = True) -> None:
         os.makedirs(path, exist_ok=True)
         if verbose:
             logger.info(f"Created directory: {path}")
+
+
+def input_prefix(tokenizer: object) -> str:
+    """Text to put before every model input: T5 needs the task named, other models need nothing."""
+    return T5_INPUT_PREFIX if type(tokenizer).__name__.startswith("T5") else ""
+
+
+def clean_summary(text: str) -> str:
+    """Pegasus writes "<n>" for line breaks; turn them into spaces and collapse repeated whitespace."""
+    return " ".join(text.replace("<n>", " ").split())

@@ -1,6 +1,8 @@
 from pathlib import Path
 from typing import Optional
 
+from box import ConfigBox
+
 from textSummarizer.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from textSummarizer.entity import (
     DataIngestionConfig,
@@ -34,6 +36,12 @@ class ConfigurationManager:
         create_directories([self.config.artifacts_root])
         logger.info(f"Smoke mode: {'ON' if self.smoke else 'OFF'} | model checkpoint: {self.model_ckpt}")
 
+    def stage_config(self, stage: str) -> ConfigBox:
+        """A stage's section of config.yaml, with its `smoke:` overrides applied in smoke mode."""
+        section = self.config[stage]
+        overrides = section.get("smoke", {}) if self.smoke else {}
+        return ConfigBox({**section, **overrides})
+
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config = self.config.data_ingestion
         create_directories([config.root_dir])
@@ -58,7 +66,7 @@ class ConfigurationManager:
         )
 
     def get_model_trainer_config(self) -> ModelTrainerConfig:
-        config = self.config.model_trainer
+        config = self.stage_config("model_trainer")
         training = self.params.training
         create_directories([config.root_dir])
         return ModelTrainerConfig(
@@ -81,7 +89,7 @@ class ConfigurationManager:
         )
 
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
-        config = self.config.model_evaluation
+        config = self.stage_config("model_evaluation")
         evaluation = self.params.evaluation
         generation = self.params.generation
         create_directories([config.root_dir])
@@ -92,12 +100,17 @@ class ConfigurationManager:
             tokenizer_path=Path(config.tokenizer_path),
             metrics_path=Path(config.metrics_path),
             samples_path=Path(config.samples_path),
-            num_samples=self.params.smoke_test.num_samples if self.smoke else evaluation.num_samples,
+            comparison_path=Path(config.comparison_path),
+            base_model_ckpt=self.model_ckpt,
+            num_samples=self.params.smoke_test.eval_num_samples if self.smoke else evaluation.num_samples,
+            num_saved_samples=evaluation.num_saved_samples,
             batch_size=evaluation.batch_size,
             max_input_length=self.params.tokenization.max_input_length,
             num_beams=generation.num_beams,
             length_penalty=generation.length_penalty,
             max_new_tokens=generation.max_new_tokens,
+            min_length=generation.min_length,
+            no_repeat_ngram_size=generation.no_repeat_ngram_size,
         )
 
     def get_prediction_config(self) -> PredictionConfig:
@@ -110,4 +123,6 @@ class ConfigurationManager:
             num_beams=generation.num_beams,
             length_penalty=generation.length_penalty,
             max_new_tokens=generation.max_new_tokens,
+            min_length=generation.min_length,
+            no_repeat_ngram_size=generation.no_repeat_ngram_size,
         )

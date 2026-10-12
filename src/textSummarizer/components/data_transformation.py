@@ -1,9 +1,10 @@
 from datasets import DatasetDict, load_from_disk
 from transformers import AutoTokenizer
 
-from textSummarizer.constants import T5_INPUT_PREFIX, TOKENIZER_NAME_FILE
+from textSummarizer.constants import TOKENIZER_NAME_FILE
 from textSummarizer.entity import DataTransformationConfig
 from textSummarizer.logging import logger
+from textSummarizer.utils.common import input_prefix
 
 
 class DataTransformation:
@@ -11,8 +12,7 @@ class DataTransformation:
         self.config = config
         logger.info(f"Loading tokenizer: {config.tokenizer_name}")
         self.tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_name)
-        # T5 is a multi-task model: it needs the task named at the start of the input.
-        self.input_prefix = T5_INPUT_PREFIX if type(self.tokenizer).__name__.startswith("T5") else ""
+        self.input_prefix = input_prefix(self.tokenizer)
 
     def tokenize_batch(self, batch: dict[str, list[str]]) -> dict[str, list[list[int]]]:
         """Tokenize dialogues as model inputs and summaries as labels (used with Dataset.map(batched=True))."""

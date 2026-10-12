@@ -16,16 +16,25 @@ tokenization:
   max_target_length: 128  # summary p99 = 65, max = 80; truncates none
 
 generation:
-  num_beams: 8
+  # Chosen with research/decoding_sweep.py on 100 validation chats + 30 hand-labeled summaries:
+  # 4 beams matched 8 on ROUGE and labels, ~42% faster. min_length 15 scored higher ROUGE but
+  # produced 7/30 false statements vs 2/30 at min_length 0.
+  num_beams: 4
   length_penalty: 0.8
   max_new_tokens: 128
+  # The Pegasus checkpoint defaults to min_length 32 (a news-summary length). SAMSum's median
+  # summary is ~23 tokens, so forcing 32 makes the model pad short summaries with invented text.
+  min_length: 0
+  no_repeat_ngram_size: 0   # 0 = off; 3 forbids repeating any 3-word phrase
 
 evaluation:
-  num_samples: 100
+  num_samples: 100        # test dialogues scored with ROUGE
   batch_size: 4
+  num_saved_samples: 10   # rows written to samples.csv for reading by eye
 
 smoke_test:
   enabled: true
   model_ckpt: t5-small
-  num_samples: 64
+  num_samples: 64         # rows per split for transformation/training
   max_steps: 5
+  eval_num_samples: 10    # test dialogues scored in smoke mode

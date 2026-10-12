@@ -13,7 +13,7 @@ This file plans the build phase by phase for Claude Code. Each phase has three p
 - [x] Phase 2: Data ingestion (Stage 1)
 - [x] Phase 3: Data transformation (Stage 2)
 - [x] Phase 4: Model fine-tuning (Stage 3), with a local smoke test and Colab training
-- [ ] Phase 5: Model evaluation (Stage 4)
+- [x] Phase 5: Model evaluation (Stage 4)
 - [ ] Phase 6: Prediction pipeline and API (Stage 5)
 - [ ] Phase 7: Docker, README and deployment
 
@@ -225,9 +225,9 @@ Run the evaluation in smoke mode locally and show me the metrics. Explain what R
 **You do:** run the comparison cell in Colab and download `comparison.csv`.
 
 **Done when:**
-- [ ] `metrics.csv` and `samples.csv` exist
-- [ ] The fine-tuned model clearly beats the base model (fine-tuned ROUGE-1 is typically around 0.40 or higher; the base model scores noticeably lower)
-- [ ] You've read `samples.csv` and judged the summaries yourself
+- [x] `metrics.csv` and `samples.csv` exist
+- [x] The fine-tuned model clearly beats the base model (fine-tuned ROUGE-1 is typically around 0.40 or higher; the base model scores noticeably lower)
+- [x] You've read `samples.csv` and judged the summaries yourself
 
 ---
 

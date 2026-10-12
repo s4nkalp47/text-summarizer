@@ -5,6 +5,7 @@ from textSummarizer.logging import logger
 from textSummarizer.pipeline.stage_01_data_ingestion import DataIngestionPipeline
 from textSummarizer.pipeline.stage_02_data_transformation import DataTransformationPipeline
 from textSummarizer.pipeline.stage_03_model_trainer import ModelTrainerPipeline
+from textSummarizer.pipeline.stage_04_model_evaluation import ModelEvaluationPipeline
 
 STAGES = ["ingestion", "transformation", "training", "evaluation"]
 
@@ -25,18 +26,12 @@ PIPELINES = {
     "ingestion": DataIngestionPipeline,
     "transformation": DataTransformationPipeline,
     "training": ModelTrainerPipeline,
+    "evaluation": ModelEvaluationPipeline,
 }
 
 
 def run_stage(stage: str, config_manager: ConfigurationManager) -> None:
     logger.info(f">>>>> Stage '{stage}' started <<<<<")
-    if stage not in PIPELINES:
-        get_config = {
-            "evaluation": config_manager.get_model_evaluation_config,
-        }[stage]
-        logger.info(f"Config: {get_config()}")
-        logger.info(f"Stage '{stage}': not implemented")
-        return
     PIPELINES[stage](config_manager).main()
     logger.info(f">>>>> Stage '{stage}' completed <<<<<")
 
