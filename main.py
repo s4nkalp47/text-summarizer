@@ -3,6 +3,7 @@ import argparse
 from textSummarizer.config.configuration import ConfigurationManager
 from textSummarizer.logging import logger
 from textSummarizer.pipeline.stage_01_data_ingestion import DataIngestionPipeline
+from textSummarizer.pipeline.stage_02_data_transformation import DataTransformationPipeline
 
 STAGES = ["ingestion", "transformation", "training", "evaluation"]
 
@@ -21,6 +22,7 @@ def parse_args() -> argparse.Namespace:
 
 PIPELINES = {
     "ingestion": DataIngestionPipeline,
+    "transformation": DataTransformationPipeline,
 }
 
 
@@ -28,7 +30,6 @@ def run_stage(stage: str, config_manager: ConfigurationManager) -> None:
     logger.info(f">>>>> Stage '{stage}' started <<<<<")
     if stage not in PIPELINES:
         get_config = {
-            "transformation": config_manager.get_data_transformation_config,
             "training": config_manager.get_model_trainer_config,
             "evaluation": config_manager.get_model_evaluation_config,
         }[stage]

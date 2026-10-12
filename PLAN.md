@@ -11,7 +11,7 @@ This file plans the build phase by phase for Claude Code. Each phase has three p
 - [ ] Phase 0: Setup (you)
 - [x] Phase 1: Project skeleton and config plumbing
 - [x] Phase 2: Data ingestion (Stage 1)
-- [ ] Phase 3: Data transformation (Stage 2)
+- [x] Phase 3: Data transformation (Stage 2)
 - [ ] Phase 4: Model fine-tuning (Stage 3), with a local smoke test and Colab training
 - [ ] Phase 5: Model evaluation (Stage 4)
 - [ ] Phase 6: Prediction pipeline and API (Stage 5)
@@ -133,7 +133,7 @@ Run `python main.py --stage ingestion` and research/eda.py, show me the stats, a
 - [x] `artifacts/data_ingestion/` has train (~14.7k), validation (818) and test (819) splits
 - [x] Running ingestion again skips the download
 - [x] `params.yaml` has real max lengths (expect about 512 for input and 128 for target)
-- [ ] You've looked at `research/length_hist.png` and a few raw dialogues
+- [x] You've looked at `research/length_hist.png` and a few raw dialogues
 
 ---
 
@@ -152,9 +152,9 @@ Run pytest and `python main.py --stage transformation`. Print one transformed ex
 ```
 
 **Done when:**
-- [ ] The saved dataset has only `input_ids`, `attention_mask` and `labels` columns
-- [ ] The decoded example reads like the original dialogue and summary
-- [ ] `pytest -q` passes
+- [x] The saved dataset has only `input_ids`, `attention_mask` and `labels` columns
+- [x] The decoded example reads like the original dialogue and summary
+- [x] `pytest -q` passes
 
 ---
 
