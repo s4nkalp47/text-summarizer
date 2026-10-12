@@ -1,0 +1,12 @@
+.venv
+artifacts
+logs
+research
+.git
+.github
+.claude
+tests
+**/__pycache__
+**/*.egg-info
+.ipynb_checkpoints
+*.md

@@ -47,3 +47,13 @@ def test_smoke_evaluation_results_are_kept_separate(manager) -> None:
     )
     assert (full.num_samples, smoke.num_samples) == (100, 10)
     assert (full.base_model_ckpt, smoke.base_model_ckpt) == ("google/pegasus-cnn_dailymail", "t5-small")
+
+
+def test_model_id_env_var_overrides_the_prediction_model(manager, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("MODEL_ID", raising=False)
+    local = manager(smoke=False).get_prediction_config()
+    monkeypatch.setenv("MODEL_ID", "someone/pegasus-samsum")
+    hub = manager(smoke=False).get_prediction_config()
+
+    assert local.model_path == "artifacts/model_trainer/model"
+    assert (hub.model_path, hub.tokenizer_path) == ("someone/pegasus-samsum", "someone/pegasus-samsum")

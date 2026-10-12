@@ -1,9 +1,10 @@
+import os
 from pathlib import Path
 from typing import Optional
 
 from box import ConfigBox
 
-from textSummarizer.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
+from textSummarizer.constants import CONFIG_FILE_PATH, MODEL_ID_ENV_VAR, PARAMS_FILE_PATH
 from textSummarizer.entity import (
     DataIngestionConfig,
     DataTransformationConfig,
@@ -116,9 +117,13 @@ class ConfigurationManager:
     def get_prediction_config(self) -> PredictionConfig:
         config = self.config.prediction
         generation = self.params.generation
+        # A deployment (Docker, a Space) sets MODEL_ID to a Hub repo holding both model and tokenizer.
+        model_id = os.environ.get(MODEL_ID_ENV_VAR)
+        if model_id:
+            logger.info(f"Using model {model_id} from the {MODEL_ID_ENV_VAR} environment variable")
         return PredictionConfig(
-            model_path=str(config.model_path),
-            tokenizer_path=str(config.tokenizer_path),
+            model_path=model_id or str(config.model_path),
+            tokenizer_path=model_id or str(config.tokenizer_path),
             max_input_chars=config.max_input_chars,
             max_input_length=self.params.tokenization.max_input_length,
             num_beams=generation.num_beams,

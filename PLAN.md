@@ -277,7 +277,7 @@ Don't build or push anything. Give me the exact commands to build and run the co
 
 **Done when:**
 - [ ] The container serves `/summarize` (if you used Docker)
-- [ ] The README is complete, with real ROUGE numbers
+- [x] The README is complete, with real ROUGE numbers
 - [ ] CI is green on GitHub
 - [ ] Optional: the Space is live and you have a public demo link
 

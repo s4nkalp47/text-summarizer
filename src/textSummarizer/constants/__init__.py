@@ -9,3 +9,6 @@ TOKENIZER_NAME_FILE = "tokenizer_name.txt"
 
 # T5 checkpoints expect the task prefix on every input (training and inference).
 T5_INPUT_PREFIX = "summarize: "
+
+# Environment variable that overrides prediction.model_path/tokenizer_path, e.g. with a Hub id in Docker.
+MODEL_ID_ENV_VAR = "MODEL_ID"
