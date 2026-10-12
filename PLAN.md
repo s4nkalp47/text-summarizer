@@ -12,7 +12,7 @@ This file plans the build phase by phase for Claude Code. Each phase has three p
 - [x] Phase 1: Project skeleton and config plumbing
 - [x] Phase 2: Data ingestion (Stage 1)
 - [x] Phase 3: Data transformation (Stage 2)
-- [ ] Phase 4: Model fine-tuning (Stage 3), with a local smoke test and Colab training
+- [x] Phase 4: Model fine-tuning (Stage 3), with a local smoke test and Colab training
 - [ ] Phase 5: Model evaluation (Stage 4)
 - [ ] Phase 6: Prediction pipeline and API (Stage 5)
 - [ ] Phase 7: Docker, README and deployment
@@ -203,8 +203,8 @@ Don't run the notebook. Afterwards, list exactly what I need to do in Colab, ste
 **Plan B (no training):** set the model path in `config.yaml` to the public, already fine-tuned `transformersbook/pegasus-samsum` and continue with Phase 5.
 
 **Done when:**
-- [ ] The Colab run finished with a decreasing loss and sensible sample summaries
-- [ ] The fine-tuned model is in `artifacts/model_trainer/` on your laptop (or you're using Plan B)
+- [x] The Colab run finished with a decreasing loss and sensible sample summaries
+- [x] The fine-tuned model is in `artifacts/model_trainer/` on your laptop (or you're using Plan B)
 
 ---
 
